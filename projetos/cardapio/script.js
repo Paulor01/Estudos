@@ -13,7 +13,8 @@ let cart = [];
 
 //abrir o modal do carrinho//
 cartBtn.addEventListener ("click", function()  {
-  cartModal.style.display = "flex"  
+    updateCartModal();
+    cartModal.style.display = "flex"   
 })
 
 //fechar o modal quando clicar fora//
@@ -51,13 +52,130 @@ function addToCart(name, price){
     if(existingItem){
        //se o item ja existe aumenta a quantidade +1
        existingItem.quantity +=1;
+
+    }else{
+
+        cart.push({
+            name,
+            price,
+            quantity:1,
+        })   
+
+    }
+
+    updateCartModal()
+ }
+
+
+//Atualiza o carrinho
+function updateCartModal(){
+   cartItemsContainer.innerHTML = "";
+   let total = 0;
+
+
+   cart.forEach(item => {
+     const cartItemElement = document.createElement("div");
+     cartItemElement.classList.add("flex","justify-between","mb-4","flex-col" )
+
+     cartItemElement.innerHTML = `
+     <div class="flex items-center justify-between" >
+        <div>
+          <p class="font-mediom">${item.name}</p>  
+          <P> Qtd:${item.quantity}</P>
+          <P class="font-mediom mt-2">R$ ${item.price.toFixed(2)}<p/>
+        </div>
+
+          <button class= "remove-from-cart-btn" data-name="${item.name}">
+            remover
+          </button>
+        
+     </div>
+     `
+     total += item.price * item.quantity;
+
+     cartItemsContainer.appendChild(cartItemElement)
+
+   })
+
+   cartTotal.textContent = total.toLocaleString("pt-BR",{
+    style: "currency",
+    currency:"BRL"
+   });
+
+   cartCounter.innerText = cart.length;
+   
+}
+//Atualiza o carrinho
+
+// inicio Função para remover o item do carrinho
+cartItemsContainer.addEventListener("click", function (event){
+  if(event.target.classList.contains("remove-from-cart-btn")){
+    const name = event.target.getAttribute("data-name")
+    
+
+    removeItemCart(name);
+  } 
+
+
+})
+
+function removeItemCart(name){
+   const index= cart.findIndex(item => item.name === name); 
+
+   if(index !== -1){
+    const item = cart[index];
+    
+    if(item.quantity > 1){
+        item.quantity -= 1;
+        updateCartModal();
         return;
     }
 
+    cart.splice(index,1);
+    updateCartModal();
 
-    cart.push({
-        name,
-        price,
-        quantity:1,
-    })
+   }
+
 }
+
+addressInput.addEventListener("input", function (event){
+   let inputValue = event.target.Value;
+
+   if(inputValue !== ""){
+    addressInput.classList.remove("border-red-500")
+    addressWarn.classList.add("hidden")
+   }
+
+})
+
+
+checkoutBtn.addEventListener("click",function(){
+   if(cart.length === 0)return;
+   if(addressInput.value === ""){
+    addressWarn.classList.remove("hidden")
+    addressInput.classList.add("border-red-500");
+   }
+
+
+})
+//veriifcar a hora e manipular o card horario
+function checkRestaurantOpen(){
+const data = new Date();
+const hora = data.getHours();
+return hora >= 9 && hora < 19;
+//true =restaurante está aberto
+}
+
+const spanItem =document.getElementById("date-span")
+const isOpan = checkRestaurantOpen();
+
+if(isOpan){
+    spanItem.classList.remove("bg-red-500");
+    spanItem.classList.add("bg-green-600")
+}else{
+    spanItem.classList.remove("bg-green-600")
+    spanItem.classList.remove("bg-red-500")
+}
+
+
+
