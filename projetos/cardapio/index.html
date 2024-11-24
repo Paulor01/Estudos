@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -32,7 +34,7 @@
        <span class="text-white font-medium">Rua 19 quadra 3, cidade jardins-VALPARAISO-GO</span>
        
        <div class="bg-green-600 px-4 py-1 rounded-lg mt-5 " id="date-span">
-        <span class="text-white font-medium">Seg á Dom - 09:00 aa 18:30</span>
+        <span class="text-white font-medium">Seg á Dom - 14:00 aa 15:00</span>
        </div>
        ,
 
@@ -237,30 +239,25 @@
 
             <p class="font-bold">Toral: <span id="cart-total">0.00</span></p>
 
-            <p class="font-bold mt-4">Endereço de Entrega</p>
+            <p class="font-bold mt-4">Endereço de Entrega:</p>
             <input 
             type="text"
             placeholder="Digite seu endereço completo.."
             id="address"
-            class="w-full borde-2 p-1 rounded my-1"
-
-            />
+            class="w-full border-2 p-1 rounded my-1"
+          />
 
             <p class="text-red-500 hidden" id="address-warn" >Digite seu endereço completo</p>
 
             <div class="flex items-center justify-between mt-5 w-full">
                 <button id="close-modal-btn">Fechar</button>
-                <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded" >Finaliar Pedido </button>
+                <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded" >Finaliar Pedido</button>
             </div>
 
-
-
-
-        </div>
+          </div>
 
     </div>
-
-  <!--FIM MODAL CART-->
+   <!--FIM MODAL CART-->
   
   <!--INICIO BUTTON CART FOOTER-->
   <footer class="w-full bg-red-500 py-3 fixed bottom-0 z-40 flex items-center justify-center">
@@ -276,7 +273,7 @@
   </footer>
   <!--FIM BUTTON CART FOOTER-->
   
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="script.js"></script>
-
 </body>
 </html>

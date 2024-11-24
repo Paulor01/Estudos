@@ -142,27 +142,64 @@ addressInput.addEventListener("input", function (event){
    let inputValue = event.target.Value;
 
    if(inputValue !== ""){
-    addressInput.classList.remove("border-red-500")
-    addressWarn.classList.add("hidden")
+      addressInput.classList.remove("bg-red-500")
+      addressWarn.classList.add("hidden")
    }
 
 })
 
 
 checkoutBtn.addEventListener("click",function(){
+
+const isOpen = checkRestaurantOpen();
+if (!isOpen){
+
+    Toastify({
+        text: "Ops A loja Está Fechada no Momento",
+  duration: 3000,
+  close: true,
+  gravity: "top", // `top` or `bottom`
+  position: "rigth", // `left`, `center` or `right`
+  stopOnFocus: true, // Prevents dismissing of toast on hover
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+    }).showToast();
+    
+    return;
+}
+
+
    if(cart.length === 0)return;
    if(addressInput.value === ""){
     addressWarn.classList.remove("hidden")
-    addressInput.classList.add("border-red-500");
+    addressInput.classList.add("border-red-500")
+    return;
    }
 
+   //enviar o pedido para a api whats
+   const cartItems = cart.map((item) => {
+    return(
+      `${item.name} Quantidade: (${item.quantity})Preço:R$${item.price} |`  
+    )
+   }).join("")
 
+   const message  = encodeURIComponent(cartItems)
+   const phone = "61992391628"
+
+   window.open(`https://wa.me/${phone}?text=${message}Endereço:${addressInput.value}`, "_blanck")
+
+   cart =[];
+   updateCartModal();
+
+
+   
 })
 //veriifcar a hora e manipular o card horario
 function checkRestaurantOpen(){
 const data = new Date();
 const hora = data.getHours();
-return hora >= 9 && hora < 19;
+return hora >= 14 && hora < 15;
 //true =restaurante está aberto
 }
 
@@ -174,7 +211,7 @@ if(isOpan){
     spanItem.classList.add("bg-green-600")
 }else{
     spanItem.classList.remove("bg-green-600")
-    spanItem.classList.remove("bg-red-500")
+    spanItem.classList.add("bg-red-500")
 }
 
 
